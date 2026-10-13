@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.32",
+          "buildVersion": "32",
+          "date": "2026-10-13T16:58:39+00:00",
+          "localizedDescription": "Flüssigere Vorschau: Abspielpuffer im Aufnahmetakt, gleichmäßiges Ausdünnen, Anzeige über Layer",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-32.ipa",
+          "size": 1845329,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.31",
           "buildVersion": "31",
           "date": "2026-10-13T16:54:53+00:00",
