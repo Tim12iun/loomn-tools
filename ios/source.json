@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.31",
+          "buildVersion": "31",
+          "date": "2026-10-13T16:54:53+00:00",
+          "localizedDescription": "Schneller Sync über direktes WLAN (wie AirDrop), Jetzt-syncen-Knopf, kein Sync während Takes",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-31.ipa",
+          "size": 1836264,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.30",
           "buildVersion": "30",
           "date": "2026-10-13T13:28:22+00:00",
