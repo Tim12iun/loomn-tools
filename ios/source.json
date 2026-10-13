@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.30",
+          "buildVersion": "30",
+          "date": "2026-10-13T13:28:22+00:00",
+          "localizedDescription": "Take-Pakete: Session pro Song bzw. bis 15 min Pause, Galerie mit Stapeln",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-30.ipa",
+          "size": 1807226,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.29",
           "buildVersion": "29",
           "date": "2026-10-13T13:16:16+00:00",
