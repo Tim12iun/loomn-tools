@@ -1,0 +1,40 @@
+{
+  "name": "Loomn Tools",
+  "identifier": "de.loomn.tools",
+  "subtitle": "LOOMN-Apps, automatisch aktuell",
+  "tintColor": "FF5A1F",
+  "iconURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/icon.png",
+  "apps": [
+    {
+      "name": "Loomn Cam",
+      "bundleIdentifier": "de.loomn.zoomrig",
+      "developerName": "LOOMN",
+      "subtitle": "Zoom-Takes per Fernbedienung",
+      "localizedDescription": "iPhone 16 Pro filmt, iPhone 13 Pro steuert. Läuft komplett offline.",
+      "iconURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/icon.png",
+      "tintColor": "FF5A1F",
+      "category": "photo-video",
+      "versions": [
+        {
+          "version": "1.0.29",
+          "buildVersion": "29",
+          "date": "2026-10-13T13:16:16+00:00",
+          "localizedDescription": "",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-29.ipa",
+          "size": 1750679,
+          "minOSVersion": "18.0"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSCameraUsageDescription": "Filmt die Zoom-Takes.",
+          "NSMicrophoneUsageDescription": "Nimmt den Ton zu den Takes auf.",
+          "NSLocalNetworkUsageDescription": "Verbindet Kamera-iPhone und Fernbedienung direkt.",
+          "NSPhotoLibraryAddUsageDescription": "Speichert Takes optional in Fotos."
+        }
+      }
+    }
+  ],
+  "news": []
+}
