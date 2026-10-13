@@ -3,83 +3,23 @@
   "name": "CUTN by loomn",
   "versions": [
     {
-      "version": "5.6.0",
-      "build": 7,
-      "runtime": 2,
-      "date": "2026-10-13T19:52:00+00:00",
-      "notes": "CUTN 5.6.0: Projekte exportieren, importieren und alte Projekte holen (#1)\n\nFreigegeben von LION im Projekt-Thread.",
-      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.6.0-b7/CUTN-Update-v5.6.0-b7.zip",
-      "sha256": "5b09388c166763586ef12039111f5dddd65e47378609d9f62f69d588cfc9aeec",
-      "size": 199172
-    },
-    {
-      "version": "5.5.0",
-      "build": 6,
-      "runtime": 2,
-      "date": "2026-10-13T18:58:01+00:00",
-      "notes": "CUTN 5.5.0: neueste Fassung mit Run 1 / Run 2 als App",
-      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.5.0-b6/CUTN-Update-v5.5.0-b6.zip",
-      "sha256": "23567df5080fb837151621d3cc7ec0f49420bc06481703986a6ab90336ac4953",
-      "size": 194709
-    },
-    {
-      "version": "5.5.0",
-      "build": 5,
-      "runtime": 2,
-      "date": "2026-10-13T18:25:02+00:00",
-      "notes": "CUTN 5.5.0: neueste Fassung mit Run 1 / Run 2 als App",
-      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.5.0-b5/CUTN-Update-v5.5.0-b5.zip",
-      "sha256": "75ccc04c10725a8f65a86ebcac62992a4fbe9cf0bd3874acfc8657a27bb92bd5",
-      "size": 194709
-    },
-    {
-      "version": "5.5.0",
-      "build": 4,
-      "runtime": 2,
-      "date": "2026-10-13T18:23:47+00:00",
-      "notes": "CUTN 5.5.0: neueste Fassung (Run 1/Run 2) als App mit Updates\n\nBasis ist jetzt die Fassung vom Mac (Documents/CLAUDE/CUTNBYLOOMN, Stand 2. Juli).\nFenster, Update-Prüfung, Online-Updates und getrennte Daten sind darauf übertragen.\nDie eigene Test-Suite läuft bei jedem Build mit.",
-      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.5.0-b4/CUTN-Update-v5.5.0-b4.zip",
-      "sha256": "aea93fdd9a8b91a9fa6d56e722a38cb8c4b2282b8268f82cba5594a681bd98fe",
-      "size": 194867
-    },
-    {
-      "version": "5.4.0",
-      "build": 3,
-      "runtime": 2,
-      "date": "2026-10-13T17:27:25+00:00",
-      "notes": "Fenster-Test der kompletten App",
-      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.4.0-b3/CUTN-Update-v5.4.0-b3.zip",
-      "sha256": "815bc4d954f5918537e87679736f586bbd0b2d630f1549f820811ca464351e06",
-      "size": 171329
-    },
-    {
-      "version": "5.4.0",
-      "build": 2,
-      "runtime": 2,
-      "date": "2026-10-13T17:26:48+00:00",
-      "notes": "Release-Notizen ohne Zusatzzeilen, Fenster-Test als Screenshot ablegen",
-      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.4.0-b2/CUTN-Update-v5.4.0-b2.zip",
-      "sha256": "32dcec030bfdada81bb4ef9cbcf43b097d5e7e9f3e978ce0cce817fb18ef5fdb",
-      "size": 171350
-    },
-    {
-      "version": "5.4.0",
-      "build": 1,
-      "runtime": 2,
-      "date": "2026-10-13T17:21:50+00:00",
-      "notes": "CUTN 5.4.0: ohne Terminal (Selbstreparatur beim Start, ad-hoc Signatur)\n\nCo-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01LS6KuUCC4zPgoQnAeEtxvW",
-      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.4.0-b1/CUTN-Update-v5.4.0-b1.zip",
-      "sha256": "ee9fe9227ae03e9e5bb58145a95fe7638d17a85bf39fccb30f724ab79c1da17e",
-      "size": 171461
+      "version": "5.6",
+      "build": 8,
+      "runtime": 3,
+      "date": "2026-10-13T20:26:24Z",
+      "notes": "Neue Schrift und Farben wie Loomn Cut\nStartet ohne Fehlermeldung, mit Ladesymbol\nStartbildschirm ist die Projektverwaltung, gespeichert wird automatisch\nUpdates kommen jetzt als ganze App mit Karte oben rechts",
+      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/loomn-cutn-b8/CUTN.zip",
+      "sha256": "3db5a41e08ea38146ad6f780e1512c63e35b276584d106d692f8908470a290a8",
+      "size": 375692105
     }
   ],
-  "updated": "2026-10-13T19:52:00+00:00",
+  "updated": "2026-10-13T20:26:24Z",
   "app_download": {
-    "version": "5.5.0",
-    "build": 6,
-    "runtime": 2,
-    "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.5.0-b6/CUTN-Mac-v5.5.0-b6.zip",
-    "size": 375562399,
-    "sha256": "46def7c26ad02bc60de53c8bcee98fa40ea65bf66c2bac756a18b3ba33e78f36"
+    "version": "5.6",
+    "build": 8,
+    "runtime": 3,
+    "url": "https://github.com/Tim12iun/loomn-tools/releases/download/loomn-cutn-b8/CUTN.zip",
+    "size": 375692105,
+    "sha256": "3db5a41e08ea38146ad6f780e1512c63e35b276584d106d692f8908470a290a8"
   }
 }
