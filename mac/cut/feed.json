@@ -4,6 +4,16 @@
   "versions": [
     {
       "version": "5.4.0",
+      "build": 2,
+      "runtime": 2,
+      "date": "2026-10-13T17:26:48+00:00",
+      "notes": "Release-Notizen ohne Zusatzzeilen, Fenster-Test als Screenshot ablegen",
+      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.4.0-b2/CUTN-Update-v5.4.0-b2.zip",
+      "sha256": "32dcec030bfdada81bb4ef9cbcf43b097d5e7e9f3e978ce0cce817fb18ef5fdb",
+      "size": 171350
+    },
+    {
+      "version": "5.4.0",
       "build": 1,
       "runtime": 2,
       "date": "2026-10-13T17:21:50+00:00",
@@ -13,7 +23,7 @@
       "size": 171461
     }
   ],
-  "updated": "2026-10-13T17:21:50+00:00",
+  "updated": "2026-10-13T17:26:48+00:00",
   "app_download": {
     "version": "5.4.0",
     "build": 1,
