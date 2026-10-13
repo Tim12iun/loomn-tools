@@ -65,11 +65,11 @@
   ],
   "updated": "2026-10-13T18:58:01+00:00",
   "app_download": {
-    "version": "5.4.0",
-    "build": 3,
+    "version": "5.5.0",
+    "build": 6,
     "runtime": 2,
-    "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.4.0-b3/CUTN-Mac-v5.4.0-b3.zip",
-    "size": 375414232,
-    "sha256": "0a4faf81d588ac4ae728f44f15e351c87ae0bf34e806c775400756f832568268"
+    "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.5.0-b6/CUTN-Mac-v5.5.0-b6.zip",
+    "size": 375562399,
+    "sha256": "46def7c26ad02bc60de53c8bcee98fa40ea65bf66c2bac756a18b3ba33e78f36"
   }
 }
