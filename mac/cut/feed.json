@@ -1,0 +1,17 @@
+{
+  "app": "cutn",
+  "name": "CUTN by loomn",
+  "versions": [
+    {
+      "version": "5.4.0",
+      "build": 1,
+      "runtime": 2,
+      "date": "2026-10-13T17:21:50+00:00",
+      "notes": "CUTN 5.4.0: ohne Terminal (Selbstreparatur beim Start, ad-hoc Signatur)\n\nCo-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01LS6KuUCC4zPgoQnAeEtxvW",
+      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.4.0-b1/CUTN-Update-v5.4.0-b1.zip",
+      "sha256": "ee9fe9227ae03e9e5bb58145a95fe7638d17a85bf39fccb30f724ab79c1da17e",
+      "size": 171461
+    }
+  ],
+  "updated": "2026-10-13T17:21:50+00:00"
+}
