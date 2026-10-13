@@ -3,6 +3,16 @@
   "name": "CUTN by loomn",
   "versions": [
     {
+      "version": "5.5.0",
+      "build": 4,
+      "runtime": 2,
+      "date": "2026-10-13T18:23:47+00:00",
+      "notes": "CUTN 5.5.0: neueste Fassung (Run 1/Run 2) als App mit Updates\n\nBasis ist jetzt die Fassung vom Mac (Documents/CLAUDE/CUTNBYLOOMN, Stand 2. Juli).\nFenster, Update-Prüfung, Online-Updates und getrennte Daten sind darauf übertragen.\nDie eigene Test-Suite läuft bei jedem Build mit.",
+      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.5.0-b4/CUTN-Update-v5.5.0-b4.zip",
+      "sha256": "aea93fdd9a8b91a9fa6d56e722a38cb8c4b2282b8268f82cba5594a681bd98fe",
+      "size": 194867
+    },
+    {
       "version": "5.4.0",
       "build": 3,
       "runtime": 2,
@@ -33,7 +43,7 @@
       "size": 171461
     }
   ],
-  "updated": "2026-10-13T17:27:25+00:00",
+  "updated": "2026-10-13T18:23:47+00:00",
   "app_download": {
     "version": "5.4.0",
     "build": 3,
