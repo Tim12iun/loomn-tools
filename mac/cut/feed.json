@@ -4,6 +4,16 @@
   "versions": [
     {
       "version": "5.4.0",
+      "build": 3,
+      "runtime": 2,
+      "date": "2026-10-13T17:27:25+00:00",
+      "notes": "Fenster-Test der kompletten App",
+      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.4.0-b3/CUTN-Update-v5.4.0-b3.zip",
+      "sha256": "815bc4d954f5918537e87679736f586bbd0b2d630f1549f820811ca464351e06",
+      "size": 171329
+    },
+    {
+      "version": "5.4.0",
       "build": 2,
       "runtime": 2,
       "date": "2026-10-13T17:26:48+00:00",
@@ -23,7 +33,7 @@
       "size": 171461
     }
   ],
-  "updated": "2026-10-13T17:26:48+00:00",
+  "updated": "2026-10-13T17:27:25+00:00",
   "app_download": {
     "version": "5.4.0",
     "build": 1,
