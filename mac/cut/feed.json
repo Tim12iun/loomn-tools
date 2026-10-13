@@ -13,5 +13,13 @@
       "size": 171461
     }
   ],
-  "updated": "2026-10-13T17:21:50+00:00"
+  "updated": "2026-10-13T17:21:50+00:00",
+  "app_download": {
+    "version": "5.4.0",
+    "build": 1,
+    "runtime": 2,
+    "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.4.0-b1/CUTN-Mac-v5.4.0-b1.zip",
+    "size": 375416808,
+    "sha256": "1283ec51911f22233efb4e7c96b99be56040126301017a6cbed1cd26ef357d3b"
+  }
 }
