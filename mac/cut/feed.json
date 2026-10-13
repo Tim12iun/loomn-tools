@@ -4,6 +4,16 @@
   "versions": [
     {
       "version": "5.5.0",
+      "build": 6,
+      "runtime": 2,
+      "date": "2026-10-13T18:58:01+00:00",
+      "notes": "CUTN 5.5.0: neueste Fassung mit Run 1 / Run 2 als App",
+      "url": "https://github.com/Tim12iun/loomn-tools/releases/download/cut-v5.5.0-b6/CUTN-Update-v5.5.0-b6.zip",
+      "sha256": "23567df5080fb837151621d3cc7ec0f49420bc06481703986a6ab90336ac4953",
+      "size": 194709
+    },
+    {
+      "version": "5.5.0",
       "build": 5,
       "runtime": 2,
       "date": "2026-10-13T18:25:02+00:00",
@@ -53,7 +63,7 @@
       "size": 171461
     }
   ],
-  "updated": "2026-10-13T18:25:02+00:00",
+  "updated": "2026-10-13T18:58:01+00:00",
   "app_download": {
     "version": "5.4.0",
     "build": 3,
