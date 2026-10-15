@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.33",
+          "buildVersion": "33",
+          "date": "2026-10-15T18:37:05+00:00",
+          "localizedDescription": "Sync: schneller Weg wartet auf die Fernbedienung und versucht es zweimal, Tempo und Weg in der Anzeige",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-33.ipa",
+          "size": 1849798,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.32",
           "buildVersion": "32",
           "date": "2026-10-13T16:58:39+00:00",
