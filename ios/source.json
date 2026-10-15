@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.34",
+          "buildVersion": "34",
+          "date": "2026-10-15T18:40:20+00:00",
+          "localizedDescription": "Sync mit Prüfsumme: grün nur wenn SHA-256 auf beiden iPhones gleich, Knopf Takes syncen, Warnung beim Löschen",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-34.ipa",
+          "size": 1868112,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.33",
           "buildVersion": "33",
           "date": "2026-10-15T18:37:05+00:00",
@@ -49,15 +58,6 @@
           "localizedDescription": "Take-Pakete: Session pro Song bzw. bis 15 min Pause, Galerie mit Stapeln",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-30.ipa",
           "size": 1807226,
-          "minOSVersion": "18.0"
-        },
-        {
-          "version": "1.0.29",
-          "buildVersion": "29",
-          "date": "2026-10-13T13:16:16+00:00",
-          "localizedDescription": "",
-          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-29.ipa",
-          "size": 1750679,
           "minOSVersion": "18.0"
         }
       ],
