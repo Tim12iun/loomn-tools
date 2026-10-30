@@ -12,6 +12,10 @@ on:
         description: "Auch bauen, wenn sich nichts geändert hat"
         type: boolean
         default: false
+      ref:
+        description: "Anderer Zweig von loomn-cam (nur Testbau, kein Update an die App)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -26,7 +30,9 @@ defaults:
 
 env:
   SRC_REPO: Tim12iun/loomn-cam
-  SRC_REF: ${{ vars.LOOMN_CUT_REF || 'claude/project-thread-7iorot' }}
+  SRC_REF: ${{ inputs.ref || vars.LOOMN_CUT_REF || 'claude/project-thread-7iorot' }}
+  # Nur der Hauptzweig wird als Update veröffentlicht, andere Zweige sind Testbauten
+  PUBLISH: ${{ inputs.ref == '' || inputs.ref == null }}
 
 jobs:
   check:
@@ -53,7 +59,7 @@ jobs:
             prevbuild=$(jq -r '.build // 0' prev.json)
           fi
           changed=false
-          if [ "$sha" != "$prevsha" ] || [ "${{ inputs.force }}" = "true" ]; then changed=true; fi
+          if [ "$sha" != "$prevsha" ] || [ "${{ inputs.force }}" = "true" ] || [ "$PUBLISH" != "true" ]; then changed=true; fi
           echo "Quelle $sha, letztes Release $prev ($prevsha), neu bauen: $changed"
           { echo "sha=$sha"; echo "prevsha=$prevsha"; echo "build=$((prevbuild + 1))"; echo "changed=$changed"; } >> "$GITHUB_OUTPUT"
 
@@ -89,6 +95,7 @@ jobs:
         run: build/LoomnCut.app/Contents/MacOS/LoomnCut --selftest "$RUNNER_TEMP/selftest" 2>&1 | tee selftest.log
 
       - name: Update als Release veröffentlichen
+        if: env.PUBLISH == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -104,6 +111,13 @@ jobs:
           jq -r '.notes | map("- " + .) | join("\n")' out/version.json > out/notes.md
           gh release create "loomn-cut-b$BUILD" out/LoomnCut.zip out/version.json \
             -R "$GITHUB_REPOSITORY" --title "Loomn Cut 1.0 (Build $BUILD)" --notes-file out/notes.md
+
+      - uses: actions/upload-artifact@v4
+        if: env.PUBLISH != 'true'
+        with:
+          name: LoomnCut-app
+          path: src/LoomnCut/build/LoomnCut.zip
+          retention-days: 14
 
       - uses: actions/upload-artifact@v4
         if: always()
