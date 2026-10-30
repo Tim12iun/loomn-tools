@@ -1,0 +1,113 @@
+name: Build Loomn Cut (Mac)
+
+# Baut Loomn Cut aus dem privaten Repo loomn-cam und veröffentlicht es hier als Release.
+# Öffentliches Repo = kostenlose Actions-Minuten. Der Code bleibt privat; gelesen wird er
+# mit dem Secret LOOMN_CAM_TOKEN (nur Lesezugriff auf loomn-cam).
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Auch bauen, wenn sich nichts geändert hat"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: loomn-cut
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  SRC_REPO: Tim12iun/loomn-cam
+  SRC_REF: ${{ vars.LOOMN_CUT_REF || 'claude/project-thread-7iorot' }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.c.outputs.sha }}
+      build: ${{ steps.c.outputs.build }}
+      changed: ${{ steps.c.outputs.changed }}
+      prevsha: ${{ steps.c.outputs.prevsha }}
+    steps:
+      - id: c
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SRC_TOKEN: ${{ secrets.LOOMN_CAM_TOKEN }}
+        run: |
+          sha=$(GH_TOKEN="$SRC_TOKEN" gh api "repos/$SRC_REPO/commits/$SRC_REF" -q .sha)
+          prev=$(gh release list -R "$GITHUB_REPOSITORY" --limit 50 --json tagName -q '[.[] | select(.tagName | startswith("loomn-cut-b"))][0].tagName' || true)
+          prevsha=""; prevbuild=0
+          if [ -n "$prev" ]; then
+            gh release download "$prev" -R "$GITHUB_REPOSITORY" -p version.json -O prev.json
+            prevsha=$(jq -r '.commit // empty' prev.json)
+            prevbuild=$(jq -r '.build // 0' prev.json)
+          fi
+          changed=false
+          if [ "$sha" != "$prevsha" ] || [ "${{ inputs.force }}" = "true" ]; then changed=true; fi
+          echo "Quelle $sha, letztes Release $prev ($prevsha), neu bauen: $changed"
+          { echo "sha=$sha"; echo "prevsha=$prevsha"; echo "build=$((prevbuild + 1))"; echo "changed=$changed"; } >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: check
+    if: needs.check.outputs.changed == 'true'
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      BUILD: ${{ needs.check.outputs.build }}
+      SHA: ${{ needs.check.outputs.sha }}
+      PREVSHA: ${{ needs.check.outputs.prevsha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SRC_REPO }}
+          ref: ${{ needs.check.outputs.sha }}
+          token: ${{ secrets.LOOMN_CAM_TOKEN }}
+          fetch-depth: 0
+          path: src
+
+      - name: Versionen
+        run: xcodebuild -version && swift --version && sw_vers
+
+      - name: App bauen
+        working-directory: src/LoomnCut
+        env:
+          UPDATE_REPO: ${{ github.repository }}
+        run: scripts/build-app.sh 2>&1 | tee build.log
+
+      - name: Selbsttest (Cutpoints, Zeitlupe)
+        working-directory: src/LoomnCut
+        run: build/LoomnCut.app/Contents/MacOS/LoomnCut --selftest "$RUNNER_TEMP/selftest" 2>&1 | tee selftest.log
+
+      - name: Update als Release veröffentlichen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd src
+          if [ -n "$PREVSHA" ] && git cat-file -e "$PREVSHA" 2>/dev/null; then range="$PREVSHA..HEAD"; else range="-8"; fi
+          notes=$(git log $range --no-merges --format=%s -- LoomnCut | head -12 | jq -R . | jq -s .)
+          cd ..
+          mkdir out && cp src/LoomnCut/build/LoomnCut.zip out/
+          jq -n --arg v "1.0" --argjson b "$BUILD" --arg d "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+                --argjson n "$notes" --arg s "$(shasum -a 256 out/LoomnCut.zip | cut -d' ' -f1)" --arg c "$SHA" \
+                '{name:"LoomnCut", version:$v, build:$b, date:$d, notes:$n, sha256:$s, file:"LoomnCut.zip", commit:$c}' > out/version.json
+          cat out/version.json
+          jq -r '.notes | map("- " + .) | join("\n")' out/version.json > out/notes.md
+          gh release create "loomn-cut-b$BUILD" out/LoomnCut.zip out/version.json \
+            -R "$GITHUB_REPOSITORY" --title "Loomn Cut 1.0 (Build $BUILD)" --notes-file out/notes.md
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: loomn-cut-logs
+          path: |
+            src/LoomnCut/build.log
+            src/LoomnCut/selftest.log
+          retention-days: 7
