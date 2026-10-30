@@ -45,7 +45,7 @@ jobs:
           sha=$(GH_TOKEN="$SRC_TOKEN" gh api "repos/$SRC_REPO/commits/$SRC_REF" -q .sha)
           if [ -z "$SRC_TOKEN" ]; then echo "::error::Secret LOOMN_CAM_TOKEN fehlt in loomn-tools (Settings → Secrets and variables → Actions)"; exit 1; fi
           # höchste Build-Nummer unter den Tags loomn-cut-b<N>
-          prev=$(gh api "repos/$GITHUB_REPOSITORY/git/matching-refs/tags/loomn-cut-b" -q '.[].ref' | sed 's#refs/tags/##' | sort -t b -k3 -n | tail -1)
+          prev=$(gh api "repos/$GITHUB_REPOSITORY/git/matching-refs/tags/loomn-cut-b" -q '.[].ref' | sed 's#refs/tags/##' | sort -t b -k2 -n | tail -1)
           prevsha=""; prevbuild=0
           if [ -n "$prev" ]; then
             gh release download "$prev" -R "$GITHUB_REPOSITORY" -p version.json -O prev.json
