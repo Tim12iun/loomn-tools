@@ -1,0 +1,85 @@
+name: Test-IPA Loomn Cam (iOS)
+
+# Baut Loomn Cam aus einem Zweig des privaten Repos loomn-cam als Test-IPA.
+# Nur zum Ausprobieren vor dem Merge: keine Veröffentlichung in der SideStore-Quelle.
+# Die IPA landet als Artefakt und im Zweig ipa-test/<zweig> dieses Repos.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Zweig von loomn-cam"
+        type: string
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: loomn-cam-test-${{ inputs.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: Tim12iun/loomn-cam
+          ref: ${{ inputs.ref }}
+          token: ${{ secrets.LOOMN_CAM_TOKEN }}
+          path: src
+
+      - name: Versionen
+        run: xcodebuild -version && sw_vers
+
+      - name: Bauen (unsigniert, Signatur macht Sideloadly/SideStore)
+        working-directory: src
+        run: |
+          set -o pipefail
+          xcodebuild \
+            MARKETING_VERSION="0.${{ github.run_number }}" \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            -project ZoomRig.xcodeproj \
+            -target ZoomRig \
+            -configuration Release \
+            -sdk iphoneos \
+            SYMROOT="$PWD/build" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build | tee build.log | grep -E "error:|warning:|BUILD" || true
+          test -d build/Release-iphoneos/ZoomRig.app
+
+      - name: IPA packen und im Testzweig ablegen
+        run: |
+          mkdir -p Payload
+          cp -R src/build/Release-iphoneos/ZoomRig.app Payload/
+          zip -qry LoomnCam-Test.ipa Payload
+          REF="${{ inputs.ref }}"
+          BR="ipa-test/${REF//\//-}"
+          mkdir out && cp LoomnCam-Test.ipa out/
+          cd out
+          git init -q -b "$BR"
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add LoomnCam-Test.ipa
+          git commit -qm "Loomn Cam Test-IPA aus $REF"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" "$BR"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LoomnCam-Test-ipa
+          path: LoomnCam-Test.ipa
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: loomn-cam-test-log
+          path: src/build.log
+          retention-days: 7
