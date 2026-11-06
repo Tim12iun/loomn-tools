@@ -1,0 +1,72 @@
+name: Mac-Tools auf macOS 14 testen
+
+# Lädt die aktuelle Version jedes Mac-Tools aus den Releases und startet sie auf einem
+# Mac mit macOS 14. Rot = das Tool startet dort nicht.
+on:
+  workflow_dispatch:
+  push:
+    branches: ["claude/macos14-test"]
+
+permissions:
+  contents: read
+
+jobs:
+  start:
+    runs-on: macos-14
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        tool:
+          - { prefix: loomn-cut-b, zip: LoomnCut.zip, selftest: true }
+          - { prefix: loomn-archiv-b, zip: LoomnArchiv.zip }
+          - { prefix: beatmosh-v, zip: Beatmosh.zip }
+          - { prefix: buildn-v, zip: Buildn.zip }
+          - { prefix: plugn-v, zip: Plugn.zip }
+    steps:
+      - name: System
+        run: sw_vers && uname -m
+      - name: Neueste Version laden
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag=$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" --paginate -q '.[].tag_name' \
+                | grep -E "^${{ matrix.tool.prefix }}[0-9.]+$" | sort -V | tail -1)
+          echo "Release: $tag"
+          gh release download "$tag" -R "$GITHUB_REPOSITORY" -p "${{ matrix.tool.zip }}" -D dl
+          cd dl && ditto -x -k "${{ matrix.tool.zip }}" . && ls
+      - name: Mindest-macOS
+        run: |
+          app=$(ls -d dl/*.app | head -1); echo "APP=$app" >> "$GITHUB_ENV"
+          exe=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Contents/Info.plist")
+          echo "EXE=$exe" >> "$GITHUB_ENV"
+          echo "LSMinimumSystemVersion: $(/usr/libexec/PlistBuddy -c 'Print :LSMinimumSystemVersion' "$app/Contents/Info.plist")"
+          vtool -show-build "$app/Contents/MacOS/$exe" | grep -E "minos|sdk"
+          xcrun dyld_info -dependents "$app/Contents/MacOS/$exe" 2>/dev/null | head -60 || otool -L "$app/Contents/MacOS/$exe"
+      - name: Selbsttest
+        if: matrix.tool.selftest
+        run: |
+          "$APP/Contents/MacOS/$EXE" --selftest "$RUNNER_TEMP/selftest" 2>&1 | tail -40
+      - name: Starten (20 s)
+        run: |
+          xattr -cr "$APP"
+          log="$RUNNER_TEMP/out.log"
+          "$APP/Contents/MacOS/$EXE" >"$log" 2>&1 &
+          pid=$!
+          sleep 20
+          screencapture -x "$RUNNER_TEMP/bild.png" || true
+          if kill -0 $pid 2>/dev/null; then
+            echo "Läuft nach 20 s noch: OK"; kill $pid
+          else
+            wait $pid; code=$?
+            echo "::error::$EXE ist beendet (Code $code)"; cat "$log"
+            ls -t ~/Library/Logs/DiagnosticReports/ 2>/dev/null | head -3 | while read f; do head -80 ~/Library/Logs/DiagnosticReports/"$f"; done
+            exit 1
+          fi
+          tail -30 "$log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bild-${{ matrix.tool.prefix }}
+          path: ${{ runner.temp }}/bild.png
+          retention-days: 7
