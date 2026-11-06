@@ -1,7 +1,8 @@
-name: Mac-Tools auf macOS 14 testen
+name: Mac-Tools starten (Apple-Chip und Intel)
 
 # Lädt die aktuelle Version jedes Mac-Tools aus den Releases und startet sie auf einem
-# Mac mit macOS 14. Rot = das Tool startet dort nicht.
+# Apple-Chip- und einem Intel-Mac und prüft, dass sie ab macOS 14 freigegeben sind.
+# (GitHub hat keine macOS-14-Maschinen mehr.) Rot = das Tool startet dort nicht.
 on:
   workflow_dispatch:
     inputs:
@@ -22,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-14, macos-15-intel]
+        os: [macos-15, macos-15-intel]
         tool:
           - { prefix: loomn-cut-b, zip: LoomnCut.zip, selftest: true }
           - { prefix: loomn-archiv-b, zip: LoomnArchiv.zip, repo: Tim12iun/loomn-archiv }
@@ -53,14 +54,19 @@ jobs:
           exe=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Contents/Info.plist")
           echo "EXE=$exe" >> "$GITHUB_ENV"
           echo "LSMinimumSystemVersion: $(/usr/libexec/PlistBuddy -c 'Print :LSMinimumSystemVersion' "$app/Contents/Info.plist")"
+          lipo -info "$app/Contents/MacOS/$exe"
           vtool -show-build "$app/Contents/MacOS/$exe" | grep -E "minos|sdk"
+          if vtool -show-build "$app/Contents/MacOS/$exe" | awk '/minos/{split($2,v,"."); if (v[1]>14) bad=1} END{exit !bad}'; then
+            echo "::error::verlangt neueres macOS als 14"; exit 1; fi
           xcrun dyld_info -dependents "$app/Contents/MacOS/$exe" 2>/dev/null | head -60 || otool -L "$app/Contents/MacOS/$exe"
       - name: Selbsttest
         if: matrix.tool.selftest
         run: |
+          set -o pipefail
           "$APP/Contents/MacOS/$EXE" --selftest "$RUNNER_TEMP/selftest" 2>&1 | tail -40
       - name: Starten (20 s)
         run: |
+          set +e
           xattr -cr "$APP"
           log="$RUNNER_TEMP/out.log"
           "$APP/Contents/MacOS/$EXE" >"$log" 2>&1 &
