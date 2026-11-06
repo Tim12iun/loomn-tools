@@ -4,6 +4,11 @@ name: Mac-Tools auf macOS 14 testen
 # Mac mit macOS 14. Rot = das Tool startet dort nicht.
 on:
   workflow_dispatch:
+    inputs:
+      cut_run:
+        description: "Lauf-ID eines Loomn-Cut-Testbaus (statt des letzten Release)"
+        type: string
+        default: ""
   push:
     branches: ["claude/macos14-test"]
 
@@ -12,14 +17,15 @@ permissions:
 
 jobs:
   start:
-    runs-on: macos-14
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix:
+        os: [macos-14, macos-15-intel]
         tool:
           - { prefix: loomn-cut-b, zip: LoomnCut.zip, selftest: true }
-          - { prefix: loomn-archiv-b, zip: LoomnArchiv.zip }
+          - { prefix: loomn-archiv-b, zip: LoomnArchiv.zip, repo: Tim12iun/loomn-archiv }
           - { prefix: beatmosh-v, zip: Beatmosh.zip }
           - { prefix: buildn-v, zip: Buildn.zip }
           - { prefix: plugn-v, zip: Plugn.zip }
@@ -29,11 +35,17 @@ jobs:
       - name: Neueste Version laden
         env:
           GH_TOKEN: ${{ github.token }}
+          REPO: ${{ matrix.tool.repo || github.repository }}
         run: |
-          tag=$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" --paginate -q '.[].tag_name' \
+          tag=$(gh api "repos/$REPO/releases?per_page=100" --paginate -q '.[].tag_name' \
                 | grep -E "^${{ matrix.tool.prefix }}[0-9.]+$" | sort -V | tail -1)
-          echo "Release: $tag"
-          gh release download "$tag" -R "$GITHUB_REPOSITORY" -p "${{ matrix.tool.zip }}" -D dl
+          if [ -n "${{ inputs.cut_run }}" ] && [ "${{ matrix.tool.zip }}" = "LoomnCut.zip" ]; then
+            echo "Testbau aus Lauf ${{ inputs.cut_run }}"
+            gh run download "${{ inputs.cut_run }}" -R "$GITHUB_REPOSITORY" -n LoomnCut-app -D dl
+          else
+            echo "Release: $tag"
+            gh release download "$tag" -R "$REPO" -p "${{ matrix.tool.zip }}" -D dl
+          fi
           cd dl && ditto -x -k "${{ matrix.tool.zip }}" . && ls
       - name: Mindest-macOS
         run: |
@@ -67,6 +79,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: bild-${{ matrix.tool.prefix }}
+          name: bild-${{ matrix.os }}-${{ matrix.tool.prefix }}
           path: ${{ runner.temp }}/bild.png
           retention-days: 7
