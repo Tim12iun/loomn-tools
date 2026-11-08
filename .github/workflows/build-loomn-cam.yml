@@ -92,6 +92,9 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             build | tee build.log | grep -E "error:|warning:|BUILD" || true
           test -d build/Release-iphoneos/ZoomRig.app
+          # Ohne Programmdatei ist der Build gescheitert (xcodebuild legt den Ordner trotzdem an)
+          grep -q "BUILD SUCCEEDED" build.log || { grep -E "error:" build.log; echo "::error::Build fehlgeschlagen"; exit 1; }
+          test -f build/Release-iphoneos/ZoomRig.app/ZoomRig
 
       - name: IPA packen und in der SideStore-Quelle veröffentlichen
         run: |
