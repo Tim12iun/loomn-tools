@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.41",
+          "buildVersion": "41",
+          "date": "2026-11-08T14:13:34+00:00",
+          "localizedDescription": "Zoom-Rad enger: 0,5× bis 5× in einem Wisch",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-41.ipa",
+          "size": 2668405,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.40",
           "buildVersion": "40",
           "date": "2026-11-08T13:57:52+00:00",
@@ -49,15 +58,6 @@
           "localizedDescription": "Tiefe verlustfrei in der .mov, editn-Knopf, Tiefe, Plate, Performance 3D, Fernbedienung",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-35.ipa",
           "size": 2632372,
-          "minOSVersion": "18.0"
-        },
-        {
-          "version": "1.0.34",
-          "buildVersion": "34",
-          "date": "2026-10-15T18:40:20+00:00",
-          "localizedDescription": "Sync mit Prüfsumme: grün nur wenn SHA-256 auf beiden iPhones gleich, Knopf Takes syncen, Warnung beim Löschen",
-          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-34.ipa",
-          "size": 1868112,
           "minOSVersion": "18.0"
         }
       ],
