@@ -19,7 +19,7 @@
           "version": "1.0.42",
           "buildVersion": "42",
           "date": "2026-11-08T14:49:18+00:00",
-          "localizedDescription": "Merge pull request #13 from Tim12iun/claude/project-thread-0cabxi",
+          "localizedDescription": "Ton und Bild beginnen und enden jetzt gemeinsam mit dem Tastendruck. Aufnahmeknopf: Kugel folgt dem Finger zum Schloss und lässt sich zurückschieben, Quadrat beim Wisch nach rechts. Ruhigerer Zoom über den Linsenwechsel beim Filmen.",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-42.ipa",
           "size": 2672132,
           "minOSVersion": "18.0"
