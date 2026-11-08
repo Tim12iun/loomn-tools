@@ -1,0 +1,125 @@
+name: Update Loomn Cam (iOS)
+
+# Baut Loomn Cam aus dem Hauptzweig des privaten Repos loomn-cam und legt die IPA samt
+# SideStore-Quelle (ios/source.json) hier ab. Öffentliches Repo = kostenlose Actions-Minuten;
+# im privaten Repo starten macOS-Läufe nicht mehr. Der Code bleibt privat; gelesen wird er mit
+# dem Secret LOOMN_CAM_TOKEN. SideStore bietet das Update an, installiert wird erst nach Zustimmung.
+on:
+  schedule:
+    - cron: "15,45 * * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Auch bauen, wenn sich nichts geändert hat"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: loomn-cam-release
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  SRC_REPO: Tim12iun/loomn-cam
+  SRC_REF: main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.c.outputs.sha }}
+      build: ${{ steps.c.outputs.build }}
+      changed: ${{ steps.c.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: c
+        env:
+          SRC_TOKEN: ${{ secrets.LOOMN_CAM_TOKEN }}
+        run: |
+          if [ -z "$SRC_TOKEN" ]; then echo "::error::Secret LOOMN_CAM_TOKEN fehlt"; exit 1; fi
+          sha=$(GH_TOKEN="$SRC_TOKEN" gh api "repos/$SRC_REPO/commits/$SRC_REF" -q .sha)
+          prevsha=$(cat ios/cam/commit.txt 2>/dev/null || true)
+          # nächste Build-Nummer: höher als alles in der Quelle (SideStore erkennt Updates daran)
+          prevbuild=$(jq -r '[.apps[]? | select(.bundleIdentifier=="de.loomn.zoomrig") | .versions[]?.buildVersion | tonumber] | max // 0' ios/source.json 2>/dev/null || echo 0)
+          changed=false
+          if [ "$sha" != "$prevsha" ] || [ "${{ inputs.force }}" = "true" ]; then changed=true; fi
+          echo "Quelle $sha, zuletzt $prevsha (Build $prevbuild), neu bauen: $changed"
+          { echo "sha=$sha"; echo "build=$((prevbuild + 1))"; echo "changed=$changed"; } >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: check
+    if: needs.check.outputs.changed == 'true'
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      BUILD: ${{ needs.check.outputs.build }}
+      SHA: ${{ needs.check.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: rel
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SRC_REPO }}
+          ref: ${{ needs.check.outputs.sha }}
+          token: ${{ secrets.LOOMN_CAM_TOKEN }}
+          path: src
+
+      - name: Versionen
+        run: xcodebuild -version && sw_vers
+
+      - name: Bauen (unsigniert, Signatur macht SideStore/Sideloadly)
+        working-directory: src
+        run: |
+          set -o pipefail
+          xcodebuild \
+            MARKETING_VERSION="1.0.$BUILD" \
+            CURRENT_PROJECT_VERSION="$BUILD" \
+            -project ZoomRig.xcodeproj \
+            -target ZoomRig \
+            -configuration Release \
+            -sdk iphoneos \
+            SYMROOT="$PWD/build" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build | tee build.log | grep -E "error:|warning:|BUILD" || true
+          test -d build/Release-iphoneos/ZoomRig.app
+
+      - name: IPA packen und in der SideStore-Quelle veröffentlichen
+        run: |
+          mkdir -p Payload
+          cp -R src/build/Release-iphoneos/ZoomRig.app Payload/
+          zip -qry LoomnCam.ipa Payload
+          notes=$(cd src && git log -1 --format=%s)
+          mkdir -p rel/ios/cam
+          cp LoomnCam.ipa "rel/ios/cam/LoomnCam-${BUILD}.ipa"
+          cp src/ZoomRig/Assets.xcassets/AppIcon.appiconset/icon-1024.png rel/ios/cam/icon.png 2>/dev/null || true
+          # nur die letzten 5 Versionen behalten
+          ls -1t rel/ios/cam/LoomnCam-*.ipa | tail -n +6 | xargs -r rm -f
+          python3 src/scripts/make_source.py rel/ios "$GITHUB_REPOSITORY" "$BUILD" "LoomnCam.ipa" "$notes"
+          echo "$SHA" > rel/ios/cam/commit.txt
+          cd rel
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A ios
+          git commit -qm "Loomn Cam 1.0.${BUILD}"
+          for i in 1 2 3 4; do
+            git push -q origin HEAD:main && break
+            git pull -q --rebase origin main || true
+            sleep $((i * 3))
+          done
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: loomn-cam-build-log
+          path: src/build.log
+          retention-days: 7
