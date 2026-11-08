@@ -19,7 +19,7 @@
           "version": "1.0.38",
           "buildVersion": "38",
           "date": "2026-11-08T13:12:21+00:00",
-          "localizedDescription": "Galerie: beim Teilen hält das Video an; Zoom-Rad in Apple-Optik",
+          "localizedDescription": "Drehrad wie bei Apple (großer Bogen, Brennweiten), nach unten wischen schließt, weicher Wechsel 0,5×/1×, Linse antippen schneller, Video hält beim Teilen an.",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-38.ipa",
           "size": 1007812,
           "minOSVersion": "18.0"
