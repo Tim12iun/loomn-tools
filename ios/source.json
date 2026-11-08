@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.38",
+          "buildVersion": "38",
+          "date": "2026-11-08T13:12:21+00:00",
+          "localizedDescription": "Galerie: beim Teilen hält das Video an; Zoom-Rad in Apple-Optik",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-38.ipa",
+          "size": 1007812,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.37",
           "buildVersion": "37",
           "date": "2026-11-08T13:08:56+00:00",
@@ -49,15 +58,6 @@
           "localizedDescription": "Sync mit Prüfsumme: grün nur wenn SHA-256 auf beiden iPhones gleich, Knopf Takes syncen, Warnung beim Löschen",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-34.ipa",
           "size": 1868112,
-          "minOSVersion": "18.0"
-        },
-        {
-          "version": "1.0.33",
-          "buildVersion": "33",
-          "date": "2026-10-15T18:37:05+00:00",
-          "localizedDescription": "Sync: schneller Weg wartet auf die Fernbedienung und versucht es zweimal, Tempo und Weg in der Anzeige",
-          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-33.ipa",
-          "size": 1849798,
           "minOSVersion": "18.0"
         }
       ],
