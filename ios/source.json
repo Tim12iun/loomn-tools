@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.36",
+          "buildVersion": "36",
+          "date": "2026-11-08T12:47:31+00:00",
+          "localizedDescription": "Merge pull request #7 from Tim12iun/claude/project-thread-0cabxi",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-36.ipa",
+          "size": 2666125,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.35",
           "buildVersion": "35",
           "date": "2026-11-08T12:18:23+00:00",
@@ -49,15 +58,6 @@
           "localizedDescription": "Flüssigere Vorschau: Abspielpuffer im Aufnahmetakt, gleichmäßiges Ausdünnen, Anzeige über Layer",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-32.ipa",
           "size": 1845329,
-          "minOSVersion": "18.0"
-        },
-        {
-          "version": "1.0.31",
-          "buildVersion": "31",
-          "date": "2026-10-13T16:54:53+00:00",
-          "localizedDescription": "Schneller Sync über direktes WLAN (wie AirDrop), Jetzt-syncen-Knopf, kein Sync während Takes",
-          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-31.ipa",
-          "size": 1836264,
           "minOSVersion": "18.0"
         }
       ],
