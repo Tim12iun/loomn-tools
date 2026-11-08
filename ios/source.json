@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.40",
+          "buildVersion": "40",
+          "date": "2026-11-08T13:57:52+00:00",
+          "localizedDescription": "Zoom-Rad: beim Aufwischen gesperrt, kein Nachschwingen, Linsenwechsel ohne Warten",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-40.ipa",
+          "size": 2668414,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.39",
           "buildVersion": "39",
           "date": "2026-11-08T13:24:44+00:00",
