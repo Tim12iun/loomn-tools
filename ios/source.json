@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.37",
+          "buildVersion": "37",
+          "date": "2026-11-08T13:08:56+00:00",
+          "localizedDescription": "Zoom-Rad: Apple-Optik, nach unten wischen schließt, weicher Linsenwechsel, schnelleres Antippen",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-37.ipa",
+          "size": 871641,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.36",
           "buildVersion": "36",
           "date": "2026-11-08T12:47:31+00:00",
@@ -49,15 +58,6 @@
           "localizedDescription": "Sync: schneller Weg wartet auf die Fernbedienung und versucht es zweimal, Tempo und Weg in der Anzeige",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-33.ipa",
           "size": 1849798,
-          "minOSVersion": "18.0"
-        },
-        {
-          "version": "1.0.32",
-          "buildVersion": "32",
-          "date": "2026-10-13T16:58:39+00:00",
-          "localizedDescription": "Flüssigere Vorschau: Abspielpuffer im Aufnahmetakt, gleichmäßiges Ausdünnen, Anzeige über Layer",
-          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-32.ipa",
-          "size": 1845329,
           "minOSVersion": "18.0"
         }
       ],
