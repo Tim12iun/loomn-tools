@@ -19,7 +19,7 @@
           "version": "1.0.41",
           "buildVersion": "41",
           "date": "2026-11-08T14:13:34+00:00",
-          "localizedDescription": "Zoom-Rad enger: 0,5× bis 5× in einem Wisch",
+          "localizedDescription": "Drehrad enger wie bei Apple: 0,5× bis 5× in einem Wisch, 5× bis 25× im zweiten Bereich.",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-41.ipa",
           "size": 2668405,
           "minOSVersion": "18.0"
