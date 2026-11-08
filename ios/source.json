@@ -16,11 +16,11 @@
       "category": "photo-video",
       "versions": [
         {
-          "version": "1.0.37",
-          "buildVersion": "38",
-          "date": "2026-11-08T13:20:32+00:00",
+          "version": "1.0.39",
+          "buildVersion": "39",
+          "date": "2026-11-08T13:24:44+00:00",
           "localizedDescription": "Zoom-Rad in Apple-Optik, nach unten wischen schließt, Video hält beim Teilen an",
-          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-37.ipa",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-39.ipa",
           "size": 2670185,
           "minOSVersion": "18.0"
         },
