@@ -96,26 +96,7 @@ jobs:
         working-directory: src/LoomnCut
         run: build/LoomnCut.app/Contents/MacOS/LoomnCut --selftest "$RUNNER_TEMP/selftest" 2>&1 | tee selftest.log
 
-      - name: Update als Release veröffentlichen
-        if: env.PUBLISH == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          cd src
-          if [ -n "$PREVSHA" ] && git cat-file -e "$PREVSHA" 2>/dev/null; then range="$PREVSHA..HEAD"; else range="-8"; fi
-          notes=$(git log $range --no-merges --format=%s -- LoomnCut | head -12 | jq -R . | jq -s .)
-          cd ..
-          mkdir out && cp src/LoomnCut/build/LoomnCut.zip out/
-          jq -n --arg v "1.0" --argjson b "$BUILD" --arg d "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-                --argjson n "$notes" --arg s "$(shasum -a 256 out/LoomnCut.zip | cut -d' ' -f1)" --arg c "$SHA" \
-                '{name:"LoomnCut", version:$v, build:$b, date:$d, notes:$n, sha256:$s, file:"LoomnCut.zip", commit:$c}' > out/version.json
-          cat out/version.json
-          jq -r '.notes | map("- " + .) | join("\n")' out/version.json > out/notes.md
-          gh release create "loomn-cut-b$BUILD" out/LoomnCut.zip out/version.json \
-            -R "$GITHUB_REPOSITORY" --title "Loomn Cut 1.0 (Build $BUILD)" --notes-file out/notes.md
-
       - uses: actions/upload-artifact@v4
-        if: env.PUBLISH != 'true'
         with:
           name: LoomnCut-app
           path: src/LoomnCut/build/LoomnCut.zip
@@ -129,3 +110,70 @@ jobs:
             src/LoomnCut/build.log
             src/LoomnCut/selftest.log
           retention-days: 7
+
+  # Stummer Selbsttest derselben App auf einem Intel-Mac (ohne Apple-KI): prüft den Intel-Teil
+  # und die Zwischenbilder per Bewegungsschätzung. Ohne grünes Ergebnis wird nichts veröffentlicht.
+  intel:
+    needs: build
+    runs-on: macos-15-intel
+    timeout-minutes: 30
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: LoomnCut-app
+          path: app
+
+      - name: Versionen
+        run: sw_vers && uname -m
+
+      - name: Selbsttest auf Intel
+        run: |
+          ditto -x -k app/LoomnCut.zip app
+          lipo -info app/LoomnCut.app/Contents/MacOS/LoomnCut
+          app/LoomnCut.app/Contents/MacOS/LoomnCut --selftest "$RUNNER_TEMP/selftest" 2>&1 | tee selftest-intel.log
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: loomn-cut-intel-logs
+          path: selftest-intel.log
+          retention-days: 7
+
+  publish:
+    needs: [check, build, intel]
+    if: needs.check.outputs.changed == 'true' && (inputs.ref == '' || inputs.ref == null)
+    runs-on: ubuntu-latest
+    env:
+      BUILD: ${{ needs.check.outputs.build }}
+      SHA: ${{ needs.check.outputs.sha }}
+      PREVSHA: ${{ needs.check.outputs.prevsha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SRC_REPO }}
+          ref: ${{ needs.check.outputs.sha }}
+          token: ${{ secrets.LOOMN_CAM_TOKEN }}
+          fetch-depth: 0
+          path: src
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: LoomnCut-app
+          path: app
+
+      - name: Update als Release veröffentlichen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd src
+          if [ -n "$PREVSHA" ] && git cat-file -e "$PREVSHA" 2>/dev/null; then range="$PREVSHA..HEAD"; else range="-8"; fi
+          notes=$(git log $range --no-merges --format=%s -- LoomnCut | head -12 | jq -R . | jq -s .)
+          cd ..
+          mkdir out && cp app/LoomnCut.zip out/
+          jq -n --arg v "1.0" --argjson b "$BUILD" --arg d "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+                --argjson n "$notes" --arg s "$(shasum -a 256 out/LoomnCut.zip | cut -d' ' -f1)" --arg c "$SHA" \
+                '{name:"LoomnCut", version:$v, build:$b, date:$d, notes:$n, sha256:$s, file:"LoomnCut.zip", commit:$c}' > out/version.json
+          cat out/version.json
+          jq -r '.notes | map("- " + .) | join("\n")' out/version.json > out/notes.md
+          gh release create "loomn-cut-b$BUILD" out/LoomnCut.zip out/version.json \
+            -R "$GITHUB_REPOSITORY" --title "Loomn Cut 1.0 (Build $BUILD)" --notes-file out/notes.md
