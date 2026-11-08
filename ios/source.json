@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.42",
+          "buildVersion": "42",
+          "date": "2026-11-08T14:49:18+00:00",
+          "localizedDescription": "Merge pull request #13 from Tim12iun/claude/project-thread-0cabxi",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-42.ipa",
+          "size": 2672132,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.41",
           "buildVersion": "41",
           "date": "2026-11-08T14:13:34+00:00",
@@ -49,15 +58,6 @@
           "localizedDescription": "Zoom-Drehrad wie in der Apple-Kamera: folgt dem Finger, rastet an den Linsen ein, kein Springen mehr. Raumscan auf Knopfdruck.",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-36.ipa",
           "size": 2666125,
-          "minOSVersion": "18.0"
-        },
-        {
-          "version": "1.0.35",
-          "buildVersion": "35",
-          "date": "2026-11-08T12:18:23+00:00",
-          "localizedDescription": "Tiefe verlustfrei in der .mov, editn-Knopf, Tiefe, Plate, Performance 3D, Fernbedienung",
-          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-35.ipa",
-          "size": 2632372,
           "minOSVersion": "18.0"
         }
       ],
