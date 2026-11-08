@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.35",
+          "buildVersion": "35",
+          "date": "2026-11-08T12:18:23+00:00",
+          "localizedDescription": "Tiefe verlustfrei in der .mov, editn-Knopf, Tiefe, Plate, Performance 3D, Fernbedienung",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-35.ipa",
+          "size": 2632372,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.34",
           "buildVersion": "34",
           "date": "2026-10-15T18:40:20+00:00",
@@ -49,15 +58,6 @@
           "localizedDescription": "Schneller Sync über direktes WLAN (wie AirDrop), Jetzt-syncen-Knopf, kein Sync während Takes",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-31.ipa",
           "size": 1836264,
-          "minOSVersion": "18.0"
-        },
-        {
-          "version": "1.0.30",
-          "buildVersion": "30",
-          "date": "2026-10-13T13:28:22+00:00",
-          "localizedDescription": "Take-Pakete: Session pro Song bzw. bis 15 min Pause, Galerie mit Stapeln",
-          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-30.ipa",
-          "size": 1807226,
           "minOSVersion": "18.0"
         }
       ],
