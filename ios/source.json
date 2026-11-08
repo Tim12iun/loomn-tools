@@ -16,6 +16,15 @@
       "category": "photo-video",
       "versions": [
         {
+          "version": "1.0.43",
+          "buildVersion": "43",
+          "date": "2026-11-08T15:01:12+00:00",
+          "localizedDescription": "Merge pull request #14 from Tim12iun/claude/project-thread-0cabxi",
+          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-43.ipa",
+          "size": 2672216,
+          "minOSVersion": "18.0"
+        },
+        {
           "version": "1.0.42",
           "buildVersion": "42",
           "date": "2026-11-08T14:49:18+00:00",
@@ -49,15 +58,6 @@
           "localizedDescription": "Drehrad wie bei Apple (großer Bogen, Brennweiten), nach unten wischen schließt, weicher Wechsel 0,5×/1×, Linse antippen schneller, Video hält beim Teilen an.",
           "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-39.ipa",
           "size": 2670185,
-          "minOSVersion": "18.0"
-        },
-        {
-          "version": "1.0.36",
-          "buildVersion": "36",
-          "date": "2026-11-08T12:47:31+00:00",
-          "localizedDescription": "Zoom-Drehrad wie in der Apple-Kamera: folgt dem Finger, rastet an den Linsen ein, kein Springen mehr. Raumscan auf Knopfdruck.",
-          "downloadURL": "https://raw.githubusercontent.com/Tim12iun/loomn-tools/main/ios/cam/LoomnCam-36.ipa",
-          "size": 2666125,
           "minOSVersion": "18.0"
         }
       ],
