@@ -92,10 +92,6 @@ jobs:
           UPDATE_REPO: ${{ github.repository }}
         run: scripts/build-app.sh 2>&1 | tee build.log
 
-      - name: Selbsttest (Cutpoints, Zeitlupe)
-        working-directory: src/LoomnCut
-        run: build/LoomnCut.app/Contents/MacOS/LoomnCut --selftest "$RUNNER_TEMP/selftest" 2>&1 | tee selftest.log
-
       - uses: actions/upload-artifact@v4
         with:
           name: LoomnCut-app
@@ -106,12 +102,33 @@ jobs:
         if: always()
         with:
           name: loomn-cut-logs
-          path: |
-            src/LoomnCut/build.log
-            src/LoomnCut/selftest.log
+          path: src/LoomnCut/build.log
           retention-days: 7
 
-  # Stummer Selbsttest derselben App auf einem Intel-Mac (ohne Apple-KI): prüft den Intel-Teil
+  # Selbsttest auf Apple-Chip, gleichzeitig mit dem Intel-Test
+  apple:
+    needs: build
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: LoomnCut-app
+          path: app
+
+      - name: Selbsttest (Cutpoints, Zeitlupe)
+        run: |
+          ditto -x -k app/LoomnCut.zip app
+          app/LoomnCut.app/Contents/MacOS/LoomnCut --selftest "$RUNNER_TEMP/selftest" 2>&1 | tee selftest.log
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: loomn-cut-selftest-log
+          path: selftest.log
+          retention-days: 7
+
+  # Stummer Selbsttest derselben App auf einem Intel-Mac (läuft gleichzeitig mit dem Apple-Test) (ohne Apple-KI): prüft den Intel-Teil
   # und die Zwischenbilder per Bewegungsschätzung. Ohne grünes Ergebnis wird nichts veröffentlicht.
   intel:
     needs: build
@@ -140,7 +157,7 @@ jobs:
           retention-days: 7
 
   publish:
-    needs: [check, build, intel]
+    needs: [check, build, apple, intel]
     if: needs.check.outputs.changed == 'true' && (inputs.ref == '' || inputs.ref == null)
     runs-on: ubuntu-latest
     env:
